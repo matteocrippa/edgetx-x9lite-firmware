@@ -33,6 +33,9 @@ jobs:
       - name: Compose release filename
         run: echo "artifact_name=edgetx-firmware-x9-lite" >> $GITHUB_ENV
 
+      - name: Check
+        run: cd edgetx && ls
+
       - name: Package firmware
         uses: 'actions/upload-artifact@v2'
         with:
