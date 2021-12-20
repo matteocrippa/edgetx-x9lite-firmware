@@ -25,6 +25,8 @@ jobs:
       - name: Build Firmware
         run: |
           echo "Running firmware build"
+          ls
+          cd edgetx
           ./tools/build-gh.sh -b x9lite
         env:
           EXTRA_OPTIONS: -DHELI=NO -DLUA=YES
