@@ -34,7 +34,7 @@ jobs:
         run: echo "artifact_name=edgetx-firmware-x9-lite" >> $GITHUB_ENV
 
       - name: Check
-        run: cd edgetx && ls
+        run: cd edgetx/build && ls
 
       - name: Package firmware
         uses: 'actions/upload-artifact@v2'
