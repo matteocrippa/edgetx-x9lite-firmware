@@ -46,6 +46,6 @@ jobs:
         with:
           name: "${{ env.artifact_name }}"
           path: |
-            edgetx/build/*.bin
+            edgetx/*.bin
           retention-days: 5
           if-no-files-found: error
