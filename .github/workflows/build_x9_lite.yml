@@ -6,6 +6,10 @@ jobs:
   build:
     name: Build firmware X9 Lite
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target:
+          - x9lite;x9lites
     container:
       image: ghcr.io/edgetx/edgetx-commit-tests
       volumes:
@@ -22,11 +26,13 @@ jobs:
           cd edgetx
           git submodule update --init --recursive
 
-      - name: Build Firmware
+      - name: Build ${{ matrix.target }}
+        env:
+          FLAVOR: ${{ matrix.target }}
         run: |
           echo "Running firmware build"
           cd edgetx
-          ./tools/build-gh.sh -b x9lite
+          ./tools/build-gh.sh
         env:
           EXTRA_OPTIONS: -DHELI=NO -DLUA=YES
 
