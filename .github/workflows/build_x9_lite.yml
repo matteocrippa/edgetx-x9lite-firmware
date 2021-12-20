@@ -24,6 +24,7 @@ jobs:
       - name: Checkout submodules
         run: |
           cd edgetx
+          git checkout 2.5
           git submodule update --init --recursive
 
       - name: Build ${{ matrix.target }}
