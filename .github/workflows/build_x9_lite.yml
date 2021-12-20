@@ -14,14 +14,15 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v2
         with:
-          name: edgetx/edgetx
-          ref: 2.5
+          name: EdgeTX/edgetx
           submodules: recursive
 
       - name: Build Firmware
         run: |
           echo "Running firmware build"
-          ./tools/build-gh.sh -DHELI=NO -DLUA=YES
+          ./tools/build-gh.sh -b x9lite
+        env:
+          EXTRA_OPTIONS: -DHELI=NO -DLUA=YES
 
       - name: Compose release filename
         # https://stackoverflow.com/questions/58033366/how-to-get-current-branch-within-github-actions
