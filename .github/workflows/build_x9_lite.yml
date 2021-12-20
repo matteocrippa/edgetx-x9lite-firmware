@@ -18,7 +18,9 @@ jobs:
           repository: 'edgetx'
 
       - name: Checkout submodules
-        run: git submodule update --init --recursive
+        run: |
+          cd edgetx
+          git submodule update --init --recursive
 
       - name: Build Firmware
         run: |
@@ -28,10 +30,9 @@ jobs:
           EXTRA_OPTIONS: -DHELI=NO -DLUA=YES
 
       - name: Compose release filename
-        # https://stackoverflow.com/questions/58033366/how-to-get-current-branch-within-github-actions
-        run: echo "artifact_name=edgetx-firmware-${GITHUB_REF##*/}" >> $GITHUB_ENV
+        run: echo "artifact_name=edgetx-firmware-x9-lite" >> $GITHUB_ENV
 
-      - name: Package firmware ${{ matrix.target }}
+      - name: Package firmware
         uses: 'actions/upload-artifact@v2'
         with:
           name: "${{ env.artifact_name }}"
