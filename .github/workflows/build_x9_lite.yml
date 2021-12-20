@@ -12,10 +12,14 @@ jobs:
         - ${{ github.workspace }}:/src
     steps:
       - name: Check out the repo
-        uses: actions/checkout@v2
+        uses: GuillaumeFalourd/clone-github-repo-action@v1
         with:
-          name: EdgeTX/edgetx
-          submodules: recursive
+          owner: 'EdgeTX'
+          repository: 'edgetx'
+        uses: actions/checkout@v2
+
+      - name: Checkout submodules
+        run: git submodule update --init --recursive
 
       - name: Build Firmware
         run: |
