@@ -1,5 +1,5 @@
 ---
-name: Build Firmware
+name: Build Firmware 2.6
 on: workflow_dispatch
 
 jobs:
