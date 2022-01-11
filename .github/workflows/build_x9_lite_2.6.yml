@@ -1,0 +1,49 @@
+---
+name: Build Firmware
+on: workflow_dispatch
+
+jobs:
+  build:
+    name: Build firmware X9 Lite
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target:
+          - x9lite;x9lites
+    container:
+      image: ghcr.io/edgetx/edgetx-commit-tests
+      volumes:
+        - ${{ github.workspace }}:/src
+    steps:
+      - name: Check out the repo
+        uses: GuillaumeFalourd/clone-github-repo-action@v1
+        with:
+          owner: 'EdgeTX'
+          repository: 'edgetx'
+
+      - name: Checkout submodules
+        run: |
+          cd edgetx
+          git checkout 2.6
+          git submodule update --init --recursive
+
+      - name: Build ${{ matrix.target }}
+        env:
+          EXTRA_OPTIONS: "-DHELI=NO -DLUA=YES " 
+          FLAVOR: ${{ matrix.target }}
+        run: |
+          echo "Running firmware build"
+          cd edgetx
+          ./tools/build-gh.sh
+
+      - name: Compose release filename
+        run: echo "artifact_name=edgetx-firmware-x9-lite" >> $GITHUB_ENV
+
+      - name: Package firmware
+        uses: 'actions/upload-artifact@v2'
+        with:
+          name: "${{ env.artifact_name }}"
+          path: |
+            edgetx/*.bin
+          retention-days: 5
+          if-no-files-found: error
